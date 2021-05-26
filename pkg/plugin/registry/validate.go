@@ -55,6 +55,60 @@ NdQkdLbveQ+US4vVAzRFJjRAvGVq14lRxiTreQ==
 =9Zuc
 -----END PGP PUBLIC KEY BLOCK-----`
 
+const gennadySpbPublicKey = `-----BEGIN PGP PUBLIC KEY BLOCK-----
+
+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
+f8LDgcI77WYxILsl8jAU3w==
+=bmim
+-----END PGP PUBLIC KEY BLOCK-----
+`
+
 func validateChecksumProvider(providerPath string, checksumPath string) error {
 	sha256sum, err := sha256File(providerPath)
 	if err != nil {
@@ -87,7 +141,8 @@ func validateChecksumProvider(providerPath string, checksumPath string) error {
 }
 
 func validateFile(targetPath string, signaturePath string) error {
-	keyring, err := openpgp.ReadArmoredKeyRing(strings.NewReader(cloudQueryPublicKey))
+	keys := strings.Join([]string{cloudQueryPublicKey, gennadySpbPublicKey}, "\n")
+	keyring, err := openpgp.ReadArmoredKeyRing(strings.NewReader(keys))
 	if err != nil {
 		return err
 	}
