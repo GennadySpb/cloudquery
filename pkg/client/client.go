@@ -154,9 +154,14 @@ func New(config *config.Config, options ...Option) (*Client, error) {
 func (c *Client) Initialize(ctx context.Context) error {
 	c.Logger.Info("Initializing required providers")
 	for _, p := range c.config.CloudQuery.Providers {
-		c.Logger.Info("Initializing provider", "name", p.Name, "version", p.Version)
+		c.Logger.Info("Initializing provider", "name", p.Name, "version", p.Version, "source(organization)", p.Source)
 		// TODO: when we will support multiple organization use the source attribute
-		details, err := c.Hub.GetProvider(ctx, plugin.DefaultOrganization, p.Name, p.Version)
+
+		organization := plugin.DefaultOrganization
+		if p.Source != "" {
+			organization = p.Source
+		}
+		details, err := c.Hub.GetProvider(ctx, organization, p.Name, p.Version)
 		if err != nil {
 			return err
 		}
@@ -178,7 +183,7 @@ func (c *Client) Fetch(ctx context.Context, request FetchRequest) error {
 			return fmt.Errorf("failed to find provider %s inside config", provider.Name)
 		}
 		// TODO: pass filepath instead
-		cqProvider, err := c.Manager.GetOrCreateProvider(provider.Name, details.Version)
+		cqProvider, err := c.Manager.GetOrCreateProvider(&details)
 		if err != nil {
 			c.Logger.Error("failed to create provider plugin", "provider", provider.Name, "error", err)
 			return err
@@ -246,7 +251,7 @@ func (c Client) GetProviderSchema(ctx context.Context, providerName string) (*cq
 	if !ok {
 		return nil, fmt.Errorf("provider plugin %s missing from plugin directory", providerName)
 	}
-	cqProvider, err := c.Manager.GetOrCreateProvider(providerName, details.Version)
+	cqProvider, err := c.Manager.GetOrCreateProvider(&details)
 	if err != nil {
 		c.Logger.Error("failed to create provider plugin", "provider", providerName, "error", err)
 		return nil, err
@@ -264,7 +269,7 @@ func (c Client) GetProviderConfiguration(ctx context.Context, providerName strin
 	if !ok {
 		return nil, fmt.Errorf("provider plugin %s missing from plugin directory", providerName)
 	}
-	cqProvider, err := c.Manager.GetOrCreateProvider(providerName, details.Version)
+	cqProvider, err := c.Manager.GetOrCreateProvider(&details)
 	if err != nil {
 		c.Logger.Error("failed to create provider plugin", "provider", providerName, "error", err)
 		return nil, err
